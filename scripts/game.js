@@ -8,9 +8,9 @@ class Game {
         this.frameNumber = null
         this.mouseY = 0
 
-        ctx.canvas.addEventListener("mousemove", e =>{
+        ctx.canvas.addEventListener("mousemove", e => {
             this.mouseY = e.clientY;
-            
+
         })
     }
 
@@ -47,7 +47,18 @@ class Game {
     }
 
     checkCollitions() {
+        let hasCollidedWith = "";
+        if (this.secondaries.enemies.some((enemy) =>
+            this.player.collidesWith(enemy)
+        )
+        ) return hasCollidedWith = "enemy"
 
+        if (this.secondaries.rewards.some((reward) =>
+            this.player.collidesWith(reward)
+        )
+        ) return hasCollidedWith = "reward"
+
+        return hasCollidedWith
     }
 }
 

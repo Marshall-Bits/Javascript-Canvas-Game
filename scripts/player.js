@@ -27,6 +27,13 @@ class Player {
         if (this.y < 0 -20) this.y = 0-20;
         if (this.y > ctx.canvas.height -20) this.y = ctx.canvas.height - 20;
     }
+
+    collidesWith(secondary){
+        return (this.x < secondary.x + secondary.width &&
+            this.x + this.width > secondary.x &&
+            this.y < secondary.y + secondary.height &&
+            this.y + this.height > secondary.y)
+    }
     shootProjectyle() {
 
     }
