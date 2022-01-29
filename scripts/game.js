@@ -2,35 +2,51 @@ class Game {
     constructor(ctx, player, projectiles, secondaries, background) {
         this.ctx = ctx
         this.player = player
-        this.secondaries = secondaries
         this.projectiles = projectiles
+        this.secondaries = secondaries
         this.background = background
         this.frameNumber = null
+        this.mouseY = 0
+
+        ctx.canvas.addEventListener("mousemove", e =>{
+            this.mouseY = e.clientY;
+            
+        })
     }
 
     start() {
         this.init()
         this.play()
     }
-    
-    int(){
+
+    init() {
         this.frameNumber = 0
     }
-    
-    play(){
-        this.frameNumber +=1
-        this.ctx.clearRect(0,0,canvas.width, canvas.height)
-        this.move()
-        this.draw()
-        this.checkCollitions()
-        requestAnimationFrame(this.play.bind(this))
+
+    play() {
+        this.move();
+        this.draw();
+        this.checkCollitions();
+        if (this.frameNumber !== null) {
+            this.frameNumber = requestAnimationFrame(this.play.bind(this));
+        }
     }
 
-    move(){
+    move() {
+        this.background.move();
+        this.player.move(this.mouseY);
+        this.secondaries.move(this.frameNumber);
+    }
+
+    draw() {
+        this.ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        this.background.draw(this.frameNumber);
+        this.player.draw();
+        this.secondaries.draw();
 
     }
 
-    draw(){
+    checkCollitions() {
 
     }
 }
