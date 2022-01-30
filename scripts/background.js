@@ -9,9 +9,10 @@ class Background {
             vx: -2, // it only needs x velocity 
             x: 0,
             y: 0
+            
         }
-
         this.backgroundImage.img.src = "img/background.jpg"
+      
     }
 
     draw(frameNumber) {

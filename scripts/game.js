@@ -11,7 +11,9 @@ class Game {
 
         ctx.canvas.addEventListener("mousemove", e => {
             this.mouseY = e.clientY;
-
+        })
+        ctx.canvas.addEventListener("click", e => {
+            this.shootProjectile();
         })
     }
 
@@ -28,17 +30,27 @@ class Game {
     play() {
         this.move();
         this.draw();
+        if (this.frameNumber % 10 === 0) {
+            this.collitionsManagement();
+        }
         this.checkCollitions();
-        this.collitionsManagement();
+        this.removeWhenOutOfScreen();
         if (this.frameNumber !== null) {
             this.frameNumber = requestAnimationFrame(this.play.bind(this));
         }
+        
     }
 
     move() {
         this.background.move();
         this.player.move(this.mouseY);
         this.secondaries.move(this.frameNumber);
+        this.projectiles.move()
+    }
+
+    removeWhenOutOfScreen() {
+        this.secondaries.enemies = this.secondaries.removeWhenOutOfScreen(this.secondaries.enemies);
+        this.secondaries.rewards = this.secondaries.removeWhenOutOfScreen(this.secondaries.rewards);
     }
 
     draw() {
@@ -47,23 +59,26 @@ class Game {
         this.player.draw();
         this.secondaries.draw();
         this.lifes.draw();
+        this.projectiles.draw();
     }
 
     checkCollitions() {
-        if (this.frameNumber % 20 === 0) {
-            let hasCollidedWith = "";
-            if (this.secondaries.enemies.some((enemy) =>
-                this.player.collidesWith(enemy)
-            )
-            ) return hasCollidedWith = "enemy"
+        let hasCollidedWith = "";
 
-            if (this.secondaries.rewards.some((reward) =>
-                this.player.collidesWith(reward)
-            )
-            ) return hasCollidedWith = "reward"
+        this.secondaries.rewards.forEach(element => {
+            if (this.player.collidesWith(element)) {
+                hasCollidedWith = "reward"
+            }
+        });
 
-            return hasCollidedWith
-        }
+
+        this.secondaries.enemies.forEach(element => {
+            if (this.player.collidesWith(element)) {
+                hasCollidedWith = "enemy"
+            }
+        });
+
+        return hasCollidedWith
     }
 
     collitionsManagement() {
@@ -71,13 +86,13 @@ class Game {
             this.lifes.removeLife()
         }
         if (this.checkCollitions() === "reward") {
-            let rewards = 0;
-            rewards++
-            console.log(rewards);
-            if(rewards % 2 === 0){
-                this.lifes.addLife()
-            }
+            this.lifes.addLife()
         }
+    }
+
+    shootProjectile() {
+        console.log(this.projectiles.projectiles)
+        this.projectiles.newProjectile(this.player.y)
     }
 }
 

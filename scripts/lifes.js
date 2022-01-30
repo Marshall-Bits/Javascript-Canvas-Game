@@ -3,19 +3,19 @@ class Lifes {
         this.ctx = ctx
         this.lifesArray = []
 
-
     }
     removeLife() {
-        this.lifesArray.pop()
+        this.lifesArray.pop();
     }
+
     init() {
         for (let i = 0; i < 3; i++) {
-            this.addLife()
+            this.addLife();
         }
     }
 
     addLife(){
-        this.lifesArray.push(this.newLife(this.lifesArray.length * 10))
+        this.lifesArray.push(this.newLife(this.lifesArray.length * 20));
     }
 
     newLife(x) {
@@ -23,16 +23,17 @@ class Lifes {
             sprite: new Image(),
 
             x: x,
-            y: this.ctx.canvas.height - 10,
+            y: this.ctx.canvas.height - 20,
 
-            width: 10,
-            height: 10
+            width: 20,
+            height: 20
 
         }
-        newLife.sprite.src = "img/life.png"
-        return newLife
+    
+        newLife.sprite.src = "img/life.png";
+    
+        return newLife;
     }
-
 
     draw() {
         this.lifesArray.forEach(

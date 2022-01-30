@@ -7,56 +7,66 @@ class Secondaries {
     }
 
     move(frameNumber) {
+
         const randomYposition = () => {
             let random = Math.floor(Math.random() * this.ctx.canvas.height)
-            if (random > this.ctx.canvas.height - 20) random -= 20
+            if (random > this.ctx.canvas.height - 60) random -= 60
             return random
         }
 
         if (frameNumber < 20) return
 
-        if (frameNumber % 200 === 0) {
+        if (frameNumber % 100 === 0) {
             this.enemies.push(this.spawnNewEnemy(randomYposition()))
         }
-        
-        if (frameNumber % 300 === 0) {
+
+        if (frameNumber % 500 === 0) {
             this.rewards.push(this.spawnNewReward(randomYposition()))
         }
 
-        this.enemies.forEach(enemie => enemie.x += enemie.vx)
+        this.enemies.forEach(enemy => {
+            enemy.x += enemy.vx
+        })
         this.rewards.forEach(reward => reward.x += reward.vx)
     }
 
+    removeWhenOutOfScreen(array) {
+        const newArray = array.filter((value, index, arr) => {
+            return value.x > 0 - value.width
+        })
+        return newArray
+    }
+
     spawnNewEnemy(position) {
-        const newEnemie = {
+        const newEnemy = {
             sprite: new Image(),
 
             y: position,
             x: this.ctx.canvas.width,
 
-            width: 20,
-            height: 20,
-            vx: -2
+            width: 40,
+            height: 40,
+            vx: -6
         }
-        newEnemie.sprite.src = "img/enemy.png"
+        newEnemy.sprite.src = "img/enemy.png"
 
-        return newEnemie
+        return newEnemy
     }
 
     spawnNewReward(position) {
-        const newEnemie = {
+        const newReward = {
             sprite: new Image(),
 
             y: position,
             x: this.ctx.canvas.width,
 
-            width: 20,
-            height: 20,
-            vx: -4
+            width: 40,
+            height: 40,
+            vx: -10
         }
-        newEnemie.sprite.src = "img/reward.png"
+        newReward.sprite.src = "img/reward.png"
 
-        return newEnemie
+        return newReward
     }
 
     draw() {
