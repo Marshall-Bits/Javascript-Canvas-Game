@@ -5,8 +5,9 @@ const background = new Background(ctx);
 const secondaries = new Secondaries(ctx);
 const projectiles = new Projectiles(ctx);
 const lifes = new Lifes(ctx);
+const score = new Score(ctx);
 
-const game = new Game(ctx, player, projectiles, secondaries, background, lifes);
+const game = new Game(ctx, player, projectiles, secondaries, background, lifes, score);
 
 const startButton = document.getElementById("start-button");
 

@@ -9,7 +9,6 @@ class Projectiles {
     move() {
         this.projectiles.forEach((projectile) => {
             projectile.x += projectile.vx
-
         })
     }
 

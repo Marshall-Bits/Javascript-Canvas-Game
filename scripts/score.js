@@ -3,23 +3,22 @@ class Score {
         this.ctx = ctx
         this.score = 0
 
-        this.x = 50
-        this.y = 0
+        this.x = 10
+        this.y = 40
     }
 
     draw(){
-        this.ctx.font = "'Roboto Mono', monospace;";
-        ctx.fillText(this.score, this.x, this.y);
+        this.ctx.font = "20px 'Roboto Mono'";
+        this.ctx.fillText(`Score: ${this.score.toString()}`, this.x, this.y);
     }
 
     addPoint(){
         this.score ++
     }
 
-    substractPoint(){
-        this.score --
-        if(score <= 0){
+    subtractPoint(){
+        if(this.score <= 0){
             return
-        }
+        }else this.score --
     }
 }

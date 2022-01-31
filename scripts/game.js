@@ -101,6 +101,7 @@ class Game {
         }
         if (this.checkCollitions() === "reward") {
             this.lifes.addLife()
+            
         }
     }
 
@@ -114,6 +115,7 @@ class Game {
                let index = this.secondaries.enemies.indexOf(element);
                
                this.secondaries.enemies.splice(index,1);
+               this.score.addPoint();
            }
         })
         this.secondaries.rewards.forEach(element => {
@@ -122,6 +124,7 @@ class Game {
                 let index = this.secondaries.rewards.indexOf(element);
                
                 this.secondaries.rewards.splice(index,1);
+                this.score.subtractPoint();
             }
          })
     }
