@@ -4,6 +4,12 @@ class Secondaries {
         this.enemies = []
         this.rewards = []
 
+        this.vxEnemy = -6
+        this.vxReward = -10
+
+        this.spawnRateEnemy = 100
+        this.spawnRateReward = 500
+
     }
 
     move(frameNumber) {
@@ -16,11 +22,11 @@ class Secondaries {
 
         if (frameNumber < 20) return
 
-        if (frameNumber % 100 === 0) {
+        if (frameNumber % this.spawnRateEnemy === 0) {
             this.enemies.push(this.spawnNewEnemy(randomYposition()))
         }
 
-        if (frameNumber % 500 === 0) {
+        if (frameNumber % this.spawnRateReward === 0) {
             this.rewards.push(this.spawnNewReward(randomYposition()))
         }
 
@@ -46,7 +52,7 @@ class Secondaries {
 
             width: 40,
             height: 40,
-            vx: -6
+            vx: this.vxEnemy
         }
         newEnemy.sprite.src = "img/enemy.png"
 
@@ -62,7 +68,7 @@ class Secondaries {
 
             width: 40,
             height: 40,
-            vx: -10
+            vx: this.vxReward
         }
         newReward.sprite.src = "img/reward.png"
 
@@ -92,5 +98,10 @@ class Secondaries {
                 )
             }
         )
+    }
+
+    increaseSpeed() {
+        this.vxReward -= 2;
+        this.vxEnemy -= 2;
     }
 }

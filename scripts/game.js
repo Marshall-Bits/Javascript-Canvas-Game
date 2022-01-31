@@ -41,21 +41,35 @@ class Game {
         this.move();
         this.draw();
         this.checkForLifes();
-        if (this.frameNumber % 10 === 0) {
-            this.collitionsManagement();
-        }
         this.checkCollitions();
         this.checkProjectileCollition();
         this.removeWhenOutOfScreen();
+        this.increaseDifficulty();
+
+        if (this.frameNumber % 10 === 0) {
+            this.collitionsManagement();
+        }
+        
         if (this.frameNumber !== null) {
             this.frameNumber = requestAnimationFrame(this.play.bind(this));
         }
         
     }
 
+    increaseDifficulty(){
+        if(this.frameNumber === 0) return
+        else if (this.frameNumber % 1000 === 0){
+            this.background.backgroundImage.vx -= 2;
+            this.secondaries.increaseSpeed();
+            this.secondaries.spawnRateEnemy = Math.round(this.secondaries.spawnRateEnemy/2);
+            this.secondaries.spawnRateReward *= 2;
+            this.score.score += 1000;
+        }
+    }
+
     move() {
         this.background.move();
-        this.player.move(this.mouseY);
+        this.player.move(this.mouseY); 
         this.secondaries.move(this.frameNumber);
         this.projectiles.move()
     }
