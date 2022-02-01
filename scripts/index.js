@@ -6,11 +6,14 @@ const secondaries = new Secondaries(ctx);
 const projectiles = new Projectiles(ctx);
 const lifes = new Lifes(ctx);
 const score = new Score(ctx);
+const gameOverDiv = document.getElementById("game-over")
 
-const game = new Game(ctx, player, projectiles, secondaries, background, lifes, score);
+const game = new Game(ctx, player, projectiles, secondaries, background, lifes, score, gameOverDiv);
 
 const startButton = document.getElementById("start-button");
 
 startButton.onclick= ()=>{
+    canvas.style.display = "block";
+    startButton.style.display = "none";
     game.start();
 }

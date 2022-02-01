@@ -9,6 +9,7 @@ class Player {
 
         this.sprite = new Image
         this.sprite.src = "img/player.png"
+
     }
 
     draw() {
@@ -23,12 +24,13 @@ class Player {
     }
 
     move(mouseY) {
-        this.y = mouseY - 25;
+        this.y = mouseY;
         if (this.y < 0) this.y = 0;
         if (this.y > ctx.canvas.height - this.width) this.y = ctx.canvas.height - this.width;
     }
 
     collidesWith(secondary) {
+        
         if (this.x >= secondary.x 
             &&
             (this.y > secondary.y
@@ -43,9 +45,11 @@ class Player {
                 &&
                 this.y + (this.height / 2) < secondary.y + secondary.height
             )
-        ) {
-            return true
-        }
+            ){
+               return true      
+            } 
+                
+        
     }
 
     

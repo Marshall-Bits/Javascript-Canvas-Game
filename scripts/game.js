@@ -1,5 +1,5 @@
 class Game {
-    constructor(ctx, player, projectiles, secondaries, background, lifes, score) {
+    constructor(ctx, player, projectiles, secondaries, background, lifes, score, gameOverDiv) {
         this.ctx = ctx
         this.player = player
         this.projectiles = projectiles
@@ -7,11 +7,12 @@ class Game {
         this.background = background
         this.lifes = lifes
         this.score = score
+        this.gameOverDiv = gameOverDiv
         this.frameNumber = null
         this.mouseY = 0
 
         ctx.canvas.addEventListener("mousemove", e => {
-            this.mouseY = e.clientY;
+            this.mouseY = e.clientY - (ctx.canvas.height / 2);
         })
         ctx.canvas.addEventListener("click", e => {
             this.shootProjectile();
@@ -23,9 +24,10 @@ class Game {
         this.play()
     }
 
-    stop(){
+    stop() {
         cancelAnimationFrame(this.frameNumber)
         this.frameNumber = null;
+        this.gameOverDiv.style.display = "flex";
     }
 
     init() {
@@ -33,7 +35,7 @@ class Game {
         this.lifes.init();
     }
 
-    checkForLifes(){
+    checkForLifes() {
         if(this.lifes.lifesArray.length === 0) this.stop()
     }
 
@@ -46,22 +48,22 @@ class Game {
         this.removeWhenOutOfScreen();
         this.increaseDifficulty();
 
-        if (this.frameNumber % 10 === 0) {
-            this.collitionsManagement();
-        }
-        
+
+       
+
+
         if (this.frameNumber !== null) {
             this.frameNumber = requestAnimationFrame(this.play.bind(this));
         }
-        
+
     }
 
-    increaseDifficulty(){
-        if(this.frameNumber === 0) return
-        else if (this.frameNumber % 1000 === 0){
+    increaseDifficulty() {
+        if (this.frameNumber === 0) return
+        else if (this.frameNumber % 1000 === 0) {
             this.background.backgroundImage.vx -= 2;
             this.secondaries.increaseSpeed();
-            this.secondaries.spawnRateEnemy = Math.round(this.secondaries.spawnRateEnemy/2);
+            this.secondaries.spawnRateEnemy = Math.round(this.secondaries.spawnRateEnemy / 2);
             this.secondaries.spawnRateReward *= 2;
             this.score.score += 1000;
         }
@@ -69,7 +71,7 @@ class Game {
 
     move() {
         this.background.move();
-        this.player.move(this.mouseY); 
+        this.player.move(this.mouseY);
         this.secondaries.move(this.frameNumber);
         this.projectiles.move()
     }
@@ -91,56 +93,54 @@ class Game {
     }
 
     checkCollitions() {
-        let hasCollidedWith = "";
-
+       
+        
         this.secondaries.rewards.forEach(element => {
             if (this.player.collidesWith(element)) {
-                hasCollidedWith = "reward"
+                let index = this.secondaries.rewards.indexOf(element);
+                this.secondaries.rewards.splice(index, 1);
+                this.lifes.addLife()
+                
             }
         });
 
 
         this.secondaries.enemies.forEach(element => {
             if (this.player.collidesWith(element)) {
-                hasCollidedWith = "enemy"
+                let index = this.secondaries.enemies.indexOf(element);
+                this.secondaries.enemies.splice(index, 1);
+                this.lifes.removeLife()
+                
             }
         });
 
-        return hasCollidedWith
+        
     }
 
-    collitionsManagement() {
-        if (this.checkCollitions() === "enemy") {
-            this.lifes.removeLife()
-        }
-        if (this.checkCollitions() === "reward") {
-            this.lifes.addLife()
-            
-        }
-    }
+   
 
     shootProjectile() {
         this.projectiles.newProjectile(this.player.y)
     }
 
-    checkProjectileCollition(){
+    checkProjectileCollition() {
         this.secondaries.enemies.forEach(element => {
-           if(this.projectiles.collidesWith(element)){
-               let index = this.secondaries.enemies.indexOf(element);
-               
-               this.secondaries.enemies.splice(index,1);
-               this.score.addPoint();
-           }
+            if (this.projectiles.collidesWith(element)) {
+                let index = this.secondaries.enemies.indexOf(element);
+
+                this.secondaries.enemies.splice(index, 1);
+                this.score.addPoint();
+            }
         })
         this.secondaries.rewards.forEach(element => {
-        
-            if(this.projectiles.collidesWith(element)){
+
+            if (this.projectiles.collidesWith(element)) {
                 let index = this.secondaries.rewards.indexOf(element);
-               
-                this.secondaries.rewards.splice(index,1);
+
+                this.secondaries.rewards.splice(index, 1);
                 this.score.subtractPoint();
             }
-         })
+        })
     }
 }
 
