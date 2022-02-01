@@ -1,6 +1,7 @@
 html{
   height: 100%;
-  background-color: rgb(70, 119, 119);
+  background-color: rgb(69, 64, 92);
+  color: aliceblue;
 }
 canvas{
   width: 1000px;
@@ -49,9 +50,27 @@ button:hover{
   display: none;
 }
 
+#intro{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#intro h1{
+  font-size: 50px;
+}
 
 h1{
+  font-family: 'Roboto Mono';
+
   margin:0;
+}
+
+span{
+  margin: 30px;
+  font-family: 'Roboto Mono';
+  font-size: 20px;
 }
 
 

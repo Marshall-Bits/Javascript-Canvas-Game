@@ -23,7 +23,7 @@ class Projectiles {
             sprite: new Image(),
 
             y: position,
-            x: 30,
+            x: 60,
 
             width: 30,
             height: 30,

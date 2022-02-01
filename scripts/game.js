@@ -1,5 +1,5 @@
 class Game {
-    constructor(ctx, player, projectiles, secondaries, background, lifes, score, gameOverDiv) {
+    constructor(ctx, player, projectiles, secondaries, background, lifes, score, explosions, sounds, gameOverDiv) {
         this.ctx = ctx
         this.player = player
         this.projectiles = projectiles
@@ -8,9 +8,16 @@ class Game {
         this.lifes = lifes
         this.score = score
         this.gameOverDiv = gameOverDiv
+        this.explosions = explosions
+        this.sounds = sounds
         this.frameNumber = null
         this.mouseY = 0
-
+        this.projectileFX = new Audio("audio/projectile.mp3")
+        this.rewardFX = new Audio("audio/reward.mp3")
+        this.looseLifeFX = new Audio("audio/looselife.mp3")
+        this.levelUpFX = new Audio("audio/levelUp.mp3")
+        this.gameOverFX = new Audio("audio/GameOver.mp3")
+        this.deadEnemyFX = new Audio("audio/deadEnemy.mp3")
 
         ctx.canvas.addEventListener("mousemove", e => {
             this.mouseY = e.clientY - (ctx.canvas.height / 2);
@@ -34,6 +41,7 @@ class Game {
         this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.fillStyle = "white";
         document.getElementById("score").innerText = `Score: ${this.score.score}`;
+        this.gameOverFX.play();
     }
 
     init() {
@@ -43,7 +51,7 @@ class Game {
         this.secondaries.init();
         this.score.init();
         this.projectiles.init();
-        this.background.init()
+        this.background.init();
     }
 
     checkForLifes() {
@@ -60,6 +68,7 @@ class Game {
         this.increaseDifficulty();
         this.sendFrameNumber(this.player);
         this.sendFrameNumber(this.secondaries);
+        this.sendFrameNumber(this.explosions);
 
 
         if (this.frameNumber !== null) {
@@ -74,12 +83,12 @@ class Game {
 
     increaseDifficulty() {
         if (this.frameNumber === 0) return
-        else if (this.frameNumber % 1000 === 0) {
+        if (this.frameNumber % 1001 === 0) {
             this.background.backgroundImage.vx -= 2;
             this.secondaries.increaseSpeed();
             this.secondaries.spawnRateEnemy = Math.round(this.secondaries.spawnRateEnemy / 2);
-            this.secondaries.spawnRateReward *= 2;
             this.score.score += 1000;
+            this.levelUpFX.play();
         }
     }
 
@@ -103,6 +112,7 @@ class Game {
         this.secondaries.draw();
         this.lifes.draw();
         this.projectiles.draw();
+        this.explosions.draw();
         this.score.draw();
     }
 
@@ -113,8 +123,8 @@ class Game {
             if (this.player.collidesWith(element)) {
                 let index = this.secondaries.rewards.indexOf(element);
                 this.secondaries.rewards.splice(index, 1);
-                this.lifes.addLife()
-
+                this.lifes.addLife();
+                this.rewardFX.play();
             }
         });
 
@@ -123,8 +133,8 @@ class Game {
             if (this.player.collidesWith(element)) {
                 let index = this.secondaries.enemies.indexOf(element);
                 this.secondaries.enemies.splice(index, 1);
-                this.lifes.removeLife()
-
+                this.lifes.removeLife();
+                this.looseLifeFX.play();
             }
         });
 
@@ -132,9 +142,12 @@ class Game {
     }
 
 
-
+  
+    
+    
     shootProjectile() {
-        this.projectiles.newProjectile(this.player.y)
+        this.projectiles.newProjectile(this.player.y);
+        this.projectileFX.play()
     }
 
     checkProjectileCollition() {
@@ -142,8 +155,11 @@ class Game {
             if (this.projectiles.collidesWith(element)) {
                 let index = this.secondaries.enemies.indexOf(element);
 
+                this.explosions.newExplosion(element.x, element.y);
+                this.explosions.deleteLastExplosion()
                 this.secondaries.enemies.splice(index, 1);
                 this.score.addPoint();
+                this.deadEnemyFX.play();
             }
         })
         this.secondaries.rewards.forEach(element => {

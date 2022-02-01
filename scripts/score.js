@@ -17,12 +17,12 @@ class Score {
     }
 
     addPoint() {
-        this.score++
+        this.score+=125
     }
 
     subtractPoint() {
         if (this.score <= 0) {
             return
-        } else this.score--
+        } else this.score-=125
     }
 }
