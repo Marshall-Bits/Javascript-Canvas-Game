@@ -25,8 +25,8 @@ class Projectiles {
             y: position,
             x: 30,
 
-            width: 40,
-            height: 40,
+            width: 30,
+            height: 30,
             vx: 6
         }
         newProjectile.sprite.src = "img/projectile.png"

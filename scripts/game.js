@@ -11,6 +11,7 @@ class Game {
         this.frameNumber = null
         this.mouseY = 0
 
+
         ctx.canvas.addEventListener("mousemove", e => {
             this.mouseY = e.clientY - (ctx.canvas.height / 2);
         })
@@ -24,16 +25,21 @@ class Game {
         this.play()
     }
 
+
     stop() {
         cancelAnimationFrame(this.frameNumber)
         this.frameNumber = null;
         this.gameOverDiv.style.display = "flex";
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+        this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        this.ctx.fillStyle = "white";
+        document.getElementById("score").innerText = `Score: ${this.score.score}`;
     }
 
     init() {
         this.frameNumber = 0;
         this.lifes.init();
-        this.player.init();        
+        this.player.init();
         this.secondaries.init();
         this.score.init();
         this.projectiles.init();
@@ -41,7 +47,7 @@ class Game {
     }
 
     checkForLifes() {
-        if(this.lifes.lifesArray.length === 0) this.stop()
+        if (this.lifes.lifesArray.length === 0) this.stop()
     }
 
     play() {
@@ -52,15 +58,18 @@ class Game {
         this.checkProjectileCollition();
         this.removeWhenOutOfScreen();
         this.increaseDifficulty();
-
-
-       
+        this.sendFrameNumber(this.player);
+        this.sendFrameNumber(this.secondaries);
 
 
         if (this.frameNumber !== null) {
             this.frameNumber = requestAnimationFrame(this.play.bind(this));
         }
 
+    }
+
+    sendFrameNumber(object){
+        object.frameNumber = this.frameNumber
     }
 
     increaseDifficulty() {
@@ -76,7 +85,7 @@ class Game {
 
     move() {
         this.background.move();
-        this.player.move(this.mouseY);
+        this.player.move(this.mouseY, this.frameNumber);
         this.secondaries.move(this.frameNumber);
         this.projectiles.move()
     }
@@ -90,7 +99,7 @@ class Game {
     draw() {
         this.ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         this.background.draw(this.frameNumber);
-        this.player.draw();
+        this.player.draw(this.frameNumber);
         this.secondaries.draw();
         this.lifes.draw();
         this.projectiles.draw();
@@ -98,14 +107,14 @@ class Game {
     }
 
     checkCollitions() {
-       
-        
+
+
         this.secondaries.rewards.forEach(element => {
             if (this.player.collidesWith(element)) {
                 let index = this.secondaries.rewards.indexOf(element);
                 this.secondaries.rewards.splice(index, 1);
                 this.lifes.addLife()
-                
+
             }
         });
 
@@ -115,14 +124,14 @@ class Game {
                 let index = this.secondaries.enemies.indexOf(element);
                 this.secondaries.enemies.splice(index, 1);
                 this.lifes.removeLife()
-                
+
             }
         });
 
-        
+
     }
 
-   
+
 
     shootProjectile() {
         this.projectiles.newProjectile(this.player.y)

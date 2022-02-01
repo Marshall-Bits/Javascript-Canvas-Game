@@ -4,15 +4,25 @@ class Player {
         this.x = 30
         this.y = this.ctx.canvas.height / 2
 
-        this.width = 50
-        this.height = 50
+        this.spriteNumber = 0;
+        this.width = 70
+        this.height = 70
 
+      
         this.sprite = new Image
-        this.sprite.src = "img/player.png"
-
+        this.sprite.src = `img/player0.png`
     }
 
-    draw() {
+
+    animation() {
+        if(this.frameNumber % 10 === 0) this.spriteNumber +=1;
+        if(this.spriteNumber>2) this.spriteNumber = 0;
+        
+        this.sprite.src = `img/player${this.spriteNumber}.png`
+        
+    }
+
+    draw(frameNumber) {
         this.ctx.drawImage(
             this.sprite,
             this.x,
@@ -20,10 +30,12 @@ class Player {
             this.width,
             this.height
         )
-
+        this.animation()
     }
 
-    init(){
+
+
+    init() {
         this.x = 30;
         this.y = this.ctx.canvas.height / 2;
     }
@@ -35,8 +47,8 @@ class Player {
     }
 
     collidesWith(secondary) {
-        
-        if (this.x >= secondary.x 
+
+        if (this.x >= secondary.x
             &&
             (this.y > secondary.y
                 &&
@@ -50,12 +62,12 @@ class Player {
                 &&
                 this.y + (this.height / 2) < secondary.y + secondary.height
             )
-            ){
-               return true      
-            } 
-                
-        
+        ) {
+            return true
+        }
+
+
     }
 
-    
+
 }
