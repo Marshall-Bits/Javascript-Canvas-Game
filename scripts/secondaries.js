@@ -12,6 +12,15 @@ class Secondaries {
 
     }
 
+    init(){
+        this.enemies = [];
+        this.rewards = [];
+        this.vxEnemy = -6;
+        this.vxReward = -10;
+        this.spawnRateEnemy = 100
+        this.spawnRateReward = 500
+    }
+
     move(frameNumber) {
 
         const randomYposition = () => {

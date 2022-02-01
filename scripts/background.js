@@ -9,10 +9,16 @@ class Background {
             vx: -2, // it only needs x velocity 
             x: 0,
             y: 0
-            
+
         }
         this.backgroundImage.img.src = "img/background.jpg"
-      
+
+    }
+
+    init() {
+        this.backgroundImage.vx = -2;
+        this.backgroundImage.x = 0;
+        this.backgroundImage.y = 0;
     }
 
     draw(frameNumber) {
@@ -26,7 +32,7 @@ class Background {
         //Second image attached to the first one to create infinite movement
         this.ctx.drawImage(
             this.backgroundImage.img,
-            this.backgroundImage.x +this.backgroundImage.width,
+            this.backgroundImage.x + this.backgroundImage.width,
             this.backgroundImage.y,
             this.backgroundImage.width,
             this.backgroundImage.height

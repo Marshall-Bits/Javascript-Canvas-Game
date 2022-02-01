@@ -33,6 +33,11 @@ class Game {
     init() {
         this.frameNumber = 0;
         this.lifes.init();
+        this.player.init();        
+        this.secondaries.init();
+        this.score.init();
+        this.projectiles.init();
+        this.background.init()
     }
 
     checkForLifes() {

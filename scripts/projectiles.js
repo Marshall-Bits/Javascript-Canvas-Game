@@ -5,7 +5,9 @@ class Projectiles {
         this.projectiles = []
     }
 
-
+    init() {
+        this.projectiles = []
+    }
     move() {
         this.projectiles.forEach((projectile) => {
             projectile.x += projectile.vx

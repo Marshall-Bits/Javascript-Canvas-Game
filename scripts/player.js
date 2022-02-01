@@ -23,6 +23,11 @@ class Player {
 
     }
 
+    init(){
+        this.x = 30;
+        this.y = this.ctx.canvas.height / 2;
+    }
+
     move(mouseY) {
         this.y = mouseY;
         if (this.y < 0) this.y = 0;
