@@ -1,5 +1,5 @@
 class Game {
-    constructor(ctx, player, projectiles, secondaries, background, lifes, score, explosions, gameOverDiv) {
+    constructor(ctx, player, projectiles, secondaries, background, lifes, score, explosions, sounds, gameOverDiv) {
         this.ctx = ctx
         this.player = player
         this.projectiles = projectiles
@@ -7,16 +7,12 @@ class Game {
         this.background = background
         this.lifes = lifes
         this.score = score
+        this.sounds = sounds
         this.gameOverDiv = gameOverDiv
         this.explosions = explosions
         this.frameNumber = null
         this.mouseY = 0
-        this.projectileFX = new Audio("audio/projectile.mp3")
-        this.rewardFX = new Audio("audio/reward.mp3")
-        this.looseLifeFX = new Audio("audio/looselife.mp3")
-        this.levelUpFX = new Audio("audio/levelUp.mp3")
-        this.gameOverFX = new Audio("audio/GameOver.mp3")
-        this.deadEnemyFX = new Audio("audio/deadEnemy.mp3")
+       
 
         ctx.canvas.addEventListener("mousemove", e => {
             this.mouseY = e.clientY;
@@ -40,7 +36,7 @@ class Game {
         this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this.ctx.fillStyle = "white";
         document.getElementById("score").innerText = `Score: ${this.score.score}`;
-        this.gameOverFX.play();
+        this.sounds.play(this.sounds.gameOver);
     }
 
     init() {
@@ -81,13 +77,13 @@ class Game {
     }
 
     increaseDifficulty() {
-        if (this.frameNumber === 0) return
+        if (this.frameNumber < 500) return
         if (this.frameNumber % 1001 === 0) {
             this.background.backgroundImage.vx -= 2;
             this.secondaries.increaseSpeed();
             this.secondaries.spawnRateEnemy = Math.round(this.secondaries.spawnRateEnemy / 2);
             this.score.score += 1000;
-            this.levelUpFX.play();
+            this.sounds.play(this.sounds.levelUp);
         }
     }
 
@@ -123,7 +119,7 @@ class Game {
                 let index = this.secondaries.rewards.indexOf(element);
                 this.secondaries.rewards.splice(index, 1);
                 this.lifes.addLife();
-                this.rewardFX.play();
+                this.sounds.play(this.sounds.reward);
             }
         });
 
@@ -133,7 +129,7 @@ class Game {
                 let index = this.secondaries.enemies.indexOf(element);
                 this.secondaries.enemies.splice(index, 1);
                 this.lifes.removeLife();
-                this.looseLifeFX.play();
+                this.sounds.play(this.sounds.looseLife);
             }
         });
 
@@ -146,7 +142,7 @@ class Game {
 
     shootProjectile() {
         this.projectiles.newProjectile(this.player.y);
-        this.projectileFX.play()
+        this.sounds.play(this.sounds.projectile)
     }
 
     checkProjectileCollition() {
@@ -157,7 +153,7 @@ class Game {
                 this.explosions.deleteLastExplosion();
                 this.secondaries.enemies.splice(index, 1);
                 this.score.addPoint();
-                this.deadEnemyFX.play();
+                this.sounds.play(this.sounds.deadEnemy);
             }
         })
         this.secondaries.rewards.forEach(element => {
@@ -168,7 +164,7 @@ class Game {
                 this.explosions.deleteLastExplosion();
                 this.secondaries.rewards.splice(index, 1);
                 this.score.subtractPoint();
-                this.deadEnemyFX.play();
+                this.sounds.play(this.sounds.deadEnemy);
             }
         })
     }

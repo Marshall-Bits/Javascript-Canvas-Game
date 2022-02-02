@@ -41,7 +41,7 @@ class Player {
     }
 
     move(mouseY) {
-        this.y = mouseY - this.height;
+        this.y = mouseY - this.height*2;
         if (this.y < 0) this.y = 0;
         if (this.y > ctx.canvas.height - this.width) this.y = ctx.canvas.height - this.width;
     }
