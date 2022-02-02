@@ -5,7 +5,9 @@ class Projectiles {
         this.projectiles = []
     }
 
-
+    init() {
+        this.projectiles = []
+    }
     move() {
         this.projectiles.forEach((projectile) => {
             projectile.x += projectile.vx
@@ -21,10 +23,10 @@ class Projectiles {
             sprite: new Image(),
 
             y: position,
-            x: 30,
+            x: 60,
 
-            width: 40,
-            height: 40,
+            width: 30,
+            height: 30,
             vx: 6
         }
         newProjectile.sprite.src = "img/projectile.png"

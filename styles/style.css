@@ -1,4 +1,79 @@
+html{
+  height: 100%;
+  background-color: rgb(69, 64, 92);
+  color: aliceblue;
+}
 canvas{
   width: 1000px;
   height: 500px;
+  display: none;
+  border-radius: 10px;
+  border-style: solid;
 }
+
+body{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+button{
+  font-family: 'Roboto Mono';
+  text-decoration: none;
+  width: 300px;
+  height: 100px;
+  font-size: 40px;
+  border-radius: 8px;
+  color: aliceblue;
+  background-image: url("/img/background.jpg");
+  text-align: center;
+  transition-duration: 1000ms;
+}
+
+button:hover{
+  background-position: left;
+  color: rgb(4, 6, 136);
+}
+
+#game-over{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  font-family: 'Roboto Mono';
+  font-size: 50px;
+  color: rgb(238, 238, 238);
+  display: none;
+}
+
+#intro{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#intro h1{
+  font-size: 50px;
+}
+
+h1{
+  font-family: 'Roboto Mono';
+
+  margin:0;
+}
+
+span{
+  margin: 30px;
+  font-family: 'Roboto Mono';
+  font-size: 20px;
+}
+
+
+
+
+

@@ -3,6 +3,7 @@ class Secondaries {
         this.ctx = ctx
         this.enemies = []
         this.rewards = []
+        this.spriteNumber = 0
 
         this.vxEnemy = -6
         this.vxReward = -10
@@ -10,6 +11,15 @@ class Secondaries {
         this.spawnRateEnemy = 100
         this.spawnRateReward = 500
 
+    }
+
+    init() {
+        this.enemies = [];
+        this.rewards = [];
+        this.vxEnemy = -6;
+        this.vxReward = -10;
+        this.spawnRateEnemy = 100
+        this.spawnRateReward = 500
     }
 
     move(frameNumber) {
@@ -50,13 +60,25 @@ class Secondaries {
             y: position,
             x: this.ctx.canvas.width,
 
-            width: 40,
-            height: 40,
+            width: 60,
+            height: 60,
             vx: this.vxEnemy
         }
         newEnemy.sprite.src = "img/enemy.png"
-
+        
         return newEnemy
+    }
+
+
+    animation(array, type) {
+        if (this.frameNumber % 10 === 0) this.spriteNumber += 1;
+        if (this.spriteNumber > 2) this.spriteNumber = 0;
+
+        array.forEach((e)=>{
+            e.sprite.src = `img/${type}${this.spriteNumber}.png`
+        })
+
+
     }
 
     spawnNewReward(position) {
@@ -98,6 +120,9 @@ class Secondaries {
                 )
             }
         )
+
+        this.animation(this.enemies,"enemy")
+
     }
 
     increaseSpeed() {

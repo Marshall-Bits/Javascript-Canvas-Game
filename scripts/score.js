@@ -1,5 +1,5 @@
 class Score {
-    constructor(ctx){
+    constructor(ctx) {
         this.ctx = ctx
         this.score = 0
 
@@ -7,18 +7,22 @@ class Score {
         this.y = 40
     }
 
-    draw(){
+    init() {
+        this.score = 0
+    }
+
+    draw() {
         this.ctx.font = "20px 'Roboto Mono'";
         this.ctx.fillText(`Score: ${this.score.toString()}`, this.x, this.y);
     }
 
-    addPoint(){
-        this.score ++
+    addPoint() {
+        this.score+=125
     }
 
-    subtractPoint(){
-        if(this.score <= 0){
+    subtractPoint() {
+        if (this.score <= 0) {
             return
-        }else this.score --
+        } else this.score-=125
     }
 }

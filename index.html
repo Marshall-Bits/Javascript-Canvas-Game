@@ -15,12 +15,29 @@
 
 <body>
     <canvas id="canvas" width="1000" height="500"></canvas>
-    <button id="start-button">StartGame</button>
+    
+    <div id="intro">
+        <h1>CAPPUCCINO CODING WARS</h1>
+        <img src="img/player0.png" width="300" alt="player">
+        <span>kill the non-coders clone army</span>        
+        <button id="start-button">StartGame</button>
+    </div>
+    
+    
+
+    <div id="game-over">
+        <h1>GAME OVER</h1>
+        <span>Sorry, you didn't code enough black squares</span>
+        <p id="score"></p>
+        <button id="try-again-button">Try again</button>
+    </div>
     <script type="text/javascript" src="/scripts/background.js"></script>
     <script type="text/javascript" src="/scripts/lifes.js"></script>
     <script type="text/javascript" src="/scripts/player.js"></script>
     <script type="text/javascript" src="/scripts/projectiles.js"></script>
     <script type="text/javascript" src="/scripts/secondaries.js"></script>
+    <script type="text/javascript" src="/scripts/explosions.js"></script>
+    <script type="text/javascript" src="/scripts/sounds.js"></script>
     <script type="text/javascript" src="/scripts/game.js"></script>
     <script type="text/javascript" src="/scripts/score.js"></script>
     <script type="text/javascript" src="/scripts/index.js"></script>
