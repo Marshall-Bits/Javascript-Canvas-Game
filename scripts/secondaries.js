@@ -29,7 +29,6 @@ class Secondaries {
             if (random > this.ctx.canvas.height - 60) random -= 60
             return random
         }
-        console.log(Math.floor(Math.random()*400));
         if (frameNumber < 20) return
 
         if (frameNumber % this.spawnRateEnemy === 0) {

@@ -7,7 +7,6 @@ const projectiles = new Projectiles(ctx);
 const lifes = new Lifes(ctx);
 const score = new Score(ctx);
 const explosions = new Explosions(ctx)
-const sounds = new Sounds(ctx)
 const gameOverDiv = document.getElementById("game-over")
 
 
@@ -20,7 +19,6 @@ const game = new Game(
     lifes, 
     score, 
     explosions,
-    sounds, 
     gameOverDiv);
 
 const startButton = document.getElementById("start-button");

@@ -1,5 +1,5 @@
 class Game {
-    constructor(ctx, player, projectiles, secondaries, background, lifes, score, explosions, sounds, gameOverDiv) {
+    constructor(ctx, player, projectiles, secondaries, background, lifes, score, explosions, gameOverDiv) {
         this.ctx = ctx
         this.player = player
         this.projectiles = projectiles
@@ -9,7 +9,6 @@ class Game {
         this.score = score
         this.gameOverDiv = gameOverDiv
         this.explosions = explosions
-        this.sounds = sounds
         this.frameNumber = null
         this.mouseY = 0
         this.projectileFX = new Audio("audio/projectile.mp3")
@@ -20,7 +19,7 @@ class Game {
         this.deadEnemyFX = new Audio("audio/deadEnemy.mp3")
 
         ctx.canvas.addEventListener("mousemove", e => {
-            this.mouseY = e.clientY - (ctx.canvas.height / 2);
+            this.mouseY = e.clientY;
         })
         ctx.canvas.addEventListener("click", e => {
             this.shootProjectile();
@@ -77,7 +76,7 @@ class Game {
 
     }
 
-    sendFrameNumber(object){
+    sendFrameNumber(object) {
         object.frameNumber = this.frameNumber
     }
 
@@ -142,9 +141,9 @@ class Game {
     }
 
 
-  
-    
-    
+
+
+
     shootProjectile() {
         this.projectiles.newProjectile(this.player.y);
         this.projectileFX.play()
@@ -154,9 +153,8 @@ class Game {
         this.secondaries.enemies.forEach(element => {
             if (this.projectiles.collidesWith(element)) {
                 let index = this.secondaries.enemies.indexOf(element);
-
                 this.explosions.newExplosion(element.x, element.y);
-                this.explosions.deleteLastExplosion()
+                this.explosions.deleteLastExplosion();
                 this.secondaries.enemies.splice(index, 1);
                 this.score.addPoint();
                 this.deadEnemyFX.play();
@@ -166,9 +164,11 @@ class Game {
 
             if (this.projectiles.collidesWith(element)) {
                 let index = this.secondaries.rewards.indexOf(element);
-
+                this.explosions.newExplosion(element.x, element.y);
+                this.explosions.deleteLastExplosion();
                 this.secondaries.rewards.splice(index, 1);
                 this.score.subtractPoint();
+                this.deadEnemyFX.play();
             }
         })
     }
