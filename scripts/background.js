@@ -11,7 +11,7 @@ class Background {
             y: 0
 
         }
-        this.backgroundImage.img.src = "/img/background.jpg"
+        this.backgroundImage.img.src = "./img/background.jpg"
 
     }
 
