@@ -12,13 +12,14 @@ class Game {
         this.explosions = explosions
         this.frameNumber = null
         this.mouseY = 0
-       
+
 
         ctx.canvas.addEventListener("mousemove", e => {
             this.mouseY = e.clientY;
         })
         ctx.canvas.addEventListener("click", e => {
-            this.shootProjectile();
+            this.player.shootProjectile();
+            this.sounds.play(this.sounds.projectile)
         })
     }
 
@@ -26,7 +27,6 @@ class Game {
         this.init()
         this.play()
     }
-
 
     stop() {
         cancelAnimationFrame(this.frameNumber)
@@ -57,9 +57,7 @@ class Game {
         this.move();
         this.draw();
         this.checkForLifes();
-        this.checkCollitions();
-        this.checkProjectileCollition();
-        this.removeWhenOutOfScreen();
+        this.collitionManagement();
         this.increaseDifficulty();
         this.sendFrameNumber(this.player);
         this.sendFrameNumber(this.secondaries);
@@ -89,20 +87,15 @@ class Game {
 
     move() {
         this.background.move();
-        this.player.move(this.mouseY, this.frameNumber);
+        this.player.move(this.mouseY);
         this.secondaries.move(this.frameNumber);
         this.projectiles.move()
     }
 
-    removeWhenOutOfScreen() {
-        this.secondaries.enemies = this.secondaries.removeWhenOutOfScreen(this.secondaries.enemies);
-        this.secondaries.rewards = this.secondaries.removeWhenOutOfScreen(this.secondaries.rewards);
-        this.projectiles.projectiles = this.projectiles.removeWhenOutOfScreen(this.projectiles.projectiles);
-    }
 
     draw() {
         this.ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        this.background.draw(this.frameNumber);
+        this.background.draw();
         this.player.draw(this.frameNumber);
         this.secondaries.draw();
         this.lifes.draw();
@@ -111,62 +104,52 @@ class Game {
         this.score.draw();
     }
 
-    checkCollitions() {
+    collitionManagement() {
 
-
-        this.secondaries.rewards.forEach(element => {
-            if (this.player.collidesWith(element)) {
-                let index = this.secondaries.rewards.indexOf(element);
+        this.secondaries.rewards.forEach(reward => {
+            if (this.player.collidesWith(reward)) {
+                let index = this.secondaries.rewards.indexOf(reward);
                 this.secondaries.rewards.splice(index, 1);
                 this.lifes.addLife();
                 this.sounds.play(this.sounds.reward);
             }
         });
 
-
-        this.secondaries.enemies.forEach(element => {
-            if (this.player.collidesWith(element)) {
-                let index = this.secondaries.enemies.indexOf(element);
+        this.secondaries.enemies.forEach(enemy => {
+            if (this.player.collidesWith(enemy)) {
+                let index = this.secondaries.enemies.indexOf(enemy);
                 this.secondaries.enemies.splice(index, 1);
                 this.lifes.removeLife();
                 this.sounds.play(this.sounds.looseLife);
+                this.player.knockBack();
             }
         });
 
-
-    }
-
-
-
-
-
-    shootProjectile() {
-        this.projectiles.newProjectile(this.player.y);
-        this.sounds.play(this.sounds.projectile)
-    }
-
-    checkProjectileCollition() {
-        this.secondaries.enemies.forEach(element => {
-            if (this.projectiles.collidesWith(element)) {
-                let index = this.secondaries.enemies.indexOf(element);
-                this.explosions.newExplosion(element.x, element.y);
-                this.explosions.deleteLastExplosion();
+        this.secondaries.enemies.forEach(enemy => {
+            if (this.projectiles.collidesWith(enemy)) {
+                let index = this.secondaries.enemies.indexOf(enemy);
+                this.explosions.newExplosion(enemy.x, enemy.y);
                 this.secondaries.enemies.splice(index, 1);
+                this.explosions.deleteLastExplosion();
                 this.score.addPoint();
                 this.sounds.play(this.sounds.deadEnemy);
             }
         })
-        this.secondaries.rewards.forEach(element => {
 
-            if (this.projectiles.collidesWith(element)) {
-                let index = this.secondaries.rewards.indexOf(element);
-                this.explosions.newExplosion(element.x, element.y);
+        this.secondaries.rewards.forEach(reward => {
+
+            if (this.projectiles.collidesWith(reward)) {
+                let index = this.secondaries.rewards.indexOf(reward);
+                this.explosions.newExplosion(reward.x, reward.y);
                 this.explosions.deleteLastExplosion();
                 this.secondaries.rewards.splice(index, 1);
                 this.score.subtractPoint();
                 this.sounds.play(this.sounds.deadEnemy);
             }
         })
+
+
     }
+
 }
 

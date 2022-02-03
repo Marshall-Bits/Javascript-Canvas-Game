@@ -4,6 +4,7 @@ class Lifes {
         this.lifesArray = []
 
     }
+    
     removeLife() {
         this.lifesArray.pop();
     }
@@ -14,8 +15,16 @@ class Lifes {
         }
     }
 
-    addLife(){
+    addLife() {
         this.lifesArray.push(this.newLife(this.lifesArray.length * 20));
+    }
+
+    animation() {
+        this.lifesArray.forEach((life) => {
+            if (life.height === 20 && life.width === 20) return
+            life.width -= 10;
+            life.height -= 10;
+        })
     }
 
     newLife(x) {
@@ -25,13 +34,13 @@ class Lifes {
             x: x,
             y: this.ctx.canvas.height - 20,
 
-            width: 20,
-            height: 20
+            width: 40,
+            height: 40
 
         }
-    
+
         newLife.sprite.src = "img/life.png";
-    
+
         return newLife;
     }
 
@@ -47,5 +56,6 @@ class Lifes {
                 )
             }
         )
+        this.animation()
     }
 }

@@ -46,10 +46,12 @@ class Secondaries {
     }
 
     removeWhenOutOfScreen(array) {
-        const newArray = array.filter((value, index, arr) => {
-            return value.x > 0 - value.width
+        array.forEach((element) => {
+            let index = array.indexOf(element)
+            if (element.x < 0) {
+                array.splice(index, 1)
+            }
         })
-        return newArray
     }
 
     spawnNewEnemy(position) {
@@ -77,7 +79,6 @@ class Secondaries {
             e.sprite.src = `img/${type}${this.spriteNumber}.png`
         })
 
-
     }
 
     spawnNewReward(position) {
@@ -91,7 +92,7 @@ class Secondaries {
             height: 40,
             vx: this.vxReward
         }
-        newReward.sprite.src = "img/reward.png"
+        newReward.sprite.src = "img/reward.png";
 
         return newReward
     }
@@ -120,7 +121,10 @@ class Secondaries {
             }
         )
 
-        this.animation(this.enemies,"enemy")
+        this.removeWhenOutOfScreen(this.enemies);
+        this.removeWhenOutOfScreen(this.rewards);
+
+        this.animation(this.enemies,"enemy");
 
     }
 

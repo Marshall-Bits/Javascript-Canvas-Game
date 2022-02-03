@@ -21,7 +21,7 @@ class Background {
         this.backgroundImage.y = 0;
     }
 
-    draw(frameNumber) {
+    draw() {
         this.ctx.drawImage( // drawImage(image, x-axis coordinate where to place the top-left corner of the image, y-axis coordinate ...)
             this.backgroundImage.img,
             this.backgroundImage.x,
@@ -39,7 +39,7 @@ class Background {
         )
     }
 
-    move(frameNumber) {
+    move() {
         this.backgroundImage.x += this.backgroundImage.vx
         if (this.backgroundImage.x + this.backgroundImage.width <= 0) this.backgroundImage.x = 0 // Velocity is substracting on x-Axis 
     }

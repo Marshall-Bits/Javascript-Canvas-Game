@@ -44,15 +44,17 @@ class Projectiles {
                 projectile.height
             )
         })
+        this.removeWhenOutOfScreen(this.projectiles);
 
     }
 
-
     removeWhenOutOfScreen(array) {
-        const newArray = array.filter((value, index, arr) => {
-            return value.x < this.ctx.canvas.width + value.width
+        array.forEach((element) => {
+            let index = array.indexOf(element)
+            if (element.x > this.ctx.canvas.width) {
+                array.splice(index, 1)
+            }
         })
-        return newArray
     }
 
     collidesWith(secondary) {
