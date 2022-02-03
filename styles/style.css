@@ -27,7 +27,7 @@ button{
   font-size: 40px;
   border-radius: 8px;
   color: aliceblue;
-  background-image: url("./img/background.jpg");
+  background-image: url("../img/background.jpg");
   text-align: center;
   transition-duration: 1000ms;
 }
